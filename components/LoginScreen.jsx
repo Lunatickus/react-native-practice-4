@@ -26,7 +26,7 @@ const LoginScreen = () => {
     }
 
     console.log(`Email: ${email}, Password: ${password}`);
-    navigation.navigate("Home", { email });
+    navigation.navigate("Home");
   };
 
   return (

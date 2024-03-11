@@ -30,7 +30,7 @@ const RegistrationScreen = () => {
     }
 
     console.log(`Login: ${login}, Email: ${email}, Password: ${password}`);
-    navigation.navigate("Home", { login, email });
+    navigation.navigate("Home");
   };
 
   return (
