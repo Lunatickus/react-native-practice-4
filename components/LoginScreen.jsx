@@ -9,13 +9,16 @@ import {
 } from "react-native";
 import { Background } from "./Background";
 import { useState } from "react";
+import { Container } from "./Container";
+import { useNavigation } from "@react-navigation/native";
 
-export const LoginScreen = () => {
+const LoginScreen = () => {
   const [emailIsFocused, setEmailIsFocused] = useState(false);
   const [passwordIsFocused, setPasswordIsFocused] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const navigation = useNavigation();
 
   const onLogin = () => {
     if (!email || !password) {
@@ -23,52 +26,59 @@ export const LoginScreen = () => {
     }
 
     console.log(`Email: ${email}, Password: ${password}`);
+    navigation.navigate("Home", { email });
   };
 
   return (
-    <Background>
-      <View style={styles.contentContainer}>
-        <Text style={styles.title}>Увійти</Text>
-        <KeyboardAvoidingView
-          style={styles.inputWrapper}
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-        >
-          <TextInput
-            placeholder="Адреса електронної пошти"
-            style={emailIsFocused ? styles.focusedInput : styles.input}
-            onFocus={() => setEmailIsFocused(true)}
-            onBlur={() => setEmailIsFocused(false)}
-            placeholderTextColor={"rgb(189, 189, 189)"}
-            value={email}
-            onChangeText={setEmail}
-          />
-          <View style={styles.passwordWrapper}>
+    <Container>
+      <Background>
+        <View style={styles.contentContainer}>
+          <Text style={styles.title}>Увійти</Text>
+          <KeyboardAvoidingView
+            style={styles.inputWrapper}
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+          >
             <TextInput
-              placeholder="Пароль"
-              secureTextEntry={!showPassword}
-              style={passwordIsFocused ? styles.focusedInput : styles.input}
-              onFocus={() => setPasswordIsFocused(true)}
-              onBlur={() => setPasswordIsFocused(false)}
+              placeholder="Адреса електронної пошти"
+              style={emailIsFocused ? styles.focusedInput : styles.input}
+              onFocus={() => setEmailIsFocused(true)}
+              onBlur={() => setEmailIsFocused(false)}
               placeholderTextColor={"rgb(189, 189, 189)"}
-              value={password}
-              onChangeText={setPassword}
+              value={email}
+              onChangeText={setEmail}
             />
-            <Pressable
-              style={styles.passwordTextWrapper}
-              onPress={() => setShowPassword(!showPassword)}
-            >
-              <Text style={styles.text}>Показати</Text>
-            </Pressable>
-          </View>
-        </KeyboardAvoidingView>
-        <Pressable style={styles.submitButton} onPress={onLogin}>
-          <Text style={styles.submitButtonText}>Увійти</Text>
-        </Pressable>
-        <Text style={styles.text}>Немає акаунту? Зареєструватися</Text>
-      </View>
-    </Background>
+            <View style={styles.passwordWrapper}>
+              <TextInput
+                placeholder="Пароль"
+                secureTextEntry={!showPassword}
+                style={passwordIsFocused ? styles.focusedInput : styles.input}
+                onFocus={() => setPasswordIsFocused(true)}
+                onBlur={() => setPasswordIsFocused(false)}
+                placeholderTextColor={"rgb(189, 189, 189)"}
+                value={password}
+                onChangeText={setPassword}
+              />
+              <Pressable
+                style={styles.passwordTextWrapper}
+                onPress={() => setShowPassword(!showPassword)}
+              >
+                <Text style={styles.text}>Показати</Text>
+              </Pressable>
+            </View>
+          </KeyboardAvoidingView>
+          <Pressable style={styles.submitButton} onPress={onLogin}>
+            <Text style={styles.submitButtonText}>Увійти</Text>
+          </Pressable>
+          <Pressable onPress={() => navigation.navigate("Registration")}>
+            <Text style={styles.text}>Немає акаунту? Зареєструватися</Text>
+          </Pressable>
+        </View>
+      </Background>
+    </Container>
   );
 };
+
+export default LoginScreen;
 
 const styles = StyleSheet.create({
   contentContainer: {

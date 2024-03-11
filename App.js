@@ -1,13 +1,12 @@
+import "react-native-gesture-handler";
 import { useFonts } from "expo-font";
-import { StatusBar } from "expo-status-bar";
-import {
-  Keyboard,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  View,
-} from "react-native";
-import { RegistrationScreen } from "./components/RegistrationScreen";
-import { LoginScreen } from "./components/LoginScreen";
+import { createStackNavigator } from "@react-navigation/stack";
+import { NavigationContainer } from "@react-navigation/native";
+import RegistrationScreen from "./components/RegistrationScreen";
+import Home from "./screens/Home";
+import LoginScreen from "./components/LoginScreen";
+
+const MainStack = createStackNavigator();
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -17,19 +16,24 @@ export default function App() {
   });
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.container}>
-        {/* <LoginScreen /> */}
-        <RegistrationScreen />
-        <StatusBar style="auto" />
-      </View>
-    </TouchableWithoutFeedback>
+    <NavigationContainer>
+      <MainStack.Navigator initialRouteName="Login">
+        <MainStack.Screen
+          name="Registration"
+          component={RegistrationScreen}
+          options={{ headerShown: false }}
+        />
+        <MainStack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{ headerShown: false }}
+        />
+        <MainStack.Screen
+          name="Home"
+          component={Home}
+          options={{ headerShown: false }}
+        />
+      </MainStack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-  },
-});
